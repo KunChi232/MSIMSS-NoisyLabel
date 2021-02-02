@@ -1,5 +1,7 @@
 from sklearn.metrics import roc_auc_score, average_precision_score
-
+from utils.meter import AverageValueMeter
+import sys
+from tqdm import tqdm
 
 class Epoch:
 
@@ -87,7 +89,7 @@ class TrainEpoch(Epoch):
         self.optimizer.step()
         return loss, prediction
 
-    
+
 class ValidEpoch(Epoch):
 
     def __init__(self, model, loss, metrics, lookup, device='cpu', verbose=True):
@@ -171,15 +173,15 @@ class ValidEpoch(Epoch):
             print('AUPR : ', aupr['AUPR'])
             
         return logs
-    
-    
+
+
 def get_train_test_epoch(model, loss, metrics, optimizer, device, lookup):
     train_epoch = TrainEpoch(
         model, 
         loss=loss, 
         metrics=metrics, 
         optimizer=optimizer,
-        device=DEVICE,
+        device=device,
         verbose=True,
     )
 
@@ -187,7 +189,7 @@ def get_train_test_epoch(model, loss, metrics, optimizer, device, lookup):
         model, 
         loss=loss, 
         metrics=metrics, 
-        device=DEVICE,
+        device=device,
         verbose=True,
         lookup=lookup
     )  
