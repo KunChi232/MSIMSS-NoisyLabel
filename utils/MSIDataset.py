@@ -1,5 +1,6 @@
 import pandas as pd
 import random
+from torch.utils.data import DataLoader, Dataset, Sampler
 from sklearn.model_selection import train_test_split
 
 
@@ -88,7 +89,7 @@ class PatchBasedDataset(Dataset):
     
     def __len__(self):
         return len(self.imgs)
-    
+
 class KNNDataset(Dataset):
     def __init__(self, imgs, lookup, patch_int_lookup, augmentation, preprocessing, validation = False):
         self.imgs = imgs
@@ -143,7 +144,7 @@ def get_patchbased_dataset(train_imgs, test_imgs, lookup):
     
     return train_dataset, validation_dataset
 
-def get_knn_dataset(train_imgs, test_imgs, lookup):
+def get_knn_dataset(train_imgs, test_imgs, patch_cls_lookup, patch_int_lookup):
     train_dataset = KNNDataset(
         imgs = train_imgs,
         lookup = patch_cls_lookup,
