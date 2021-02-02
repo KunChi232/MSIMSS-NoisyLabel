@@ -21,6 +21,7 @@ def get_train_test_imgs(tumor_patches, patient):
             continue
         if(p_id in patient):
             imgs.append(p)
+    return imgs
 
 
 def drop_train_mss(train_imgs, lookup):
